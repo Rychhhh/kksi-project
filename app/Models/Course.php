@@ -12,4 +12,9 @@ class Course extends Model
     protected $table = 'course';
 
     protected $guarded = ['id'];
+
+    public function materis()
+    {
+        return $this->hasMany(Materi::class, 'course_id', 'id');
+    }
 }

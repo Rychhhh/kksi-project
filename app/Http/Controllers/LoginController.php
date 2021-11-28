@@ -40,4 +40,14 @@ class LoginController extends Controller
         return back()->with('loginGagal', 'Login Anda Gagal');
     }
 
+    public function logout()
+    {
+        try {
+            Auth::logout();
+            return redirect('/')->with('success', 'Logout berhasil');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
 }
