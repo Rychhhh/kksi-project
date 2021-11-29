@@ -36,7 +36,15 @@ class CourseController extends Controller
      */
     public function store(StoreCourseRequest $request)
     {
-        //
+        try {
+            $validated = $request->validated();
+            Course::create([
+                'title' => $validated['title']
+            ]);
+            return back()->with('success', 'Saya ganteng');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
