@@ -21,9 +21,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/dashboard', function () {
-    return view('layouts.main');
-});
+
 
 // Login 
 Route::get('/login', [LoginController::class, 'index']);
@@ -36,4 +34,11 @@ Route::get('/register', [RegisterController::class, 'index']);
 
 Route::post('/register', [RegisterController::class, 'store']);
 
-Route::get('/materi', [RouteController::class, 'dataMateri']);
+Route::middleware('auth')->group(function(){
+    Route::get('/materi', [RouteController::class, 'dataMateri']);
+    Route::get('/dashboard', function () {
+        return view('dashboard.index');
+    });
+
+    Route::get('/logout', [LoginController::class, 'logout']);
+});
