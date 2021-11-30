@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
 
     
     // Course Page
-    Route::get('/course', [CourseController::class, 'index']);
+    Route::get('/course', [RouteController::class, 'dataCourse']);
     // Create Course
     Route::get('/course/create', [CourseController::class, 'create']);
     Route::get('/course/store', [CourseController::class, 'store']);

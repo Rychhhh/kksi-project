@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RequestCourse;
 use App\Models\Course;
 use Illuminate\Http\Request;
 
@@ -14,10 +15,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $data = Course::all()->sortByDesc('id');
-        return view('dashboard.courses.index')->with([
-            "data" => $data
-        ]);
+        // 
     }
 
     /**
@@ -36,11 +34,24 @@ class CourseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RequestCourse $request)
     {
-        // Insert data in database 
-        $data['title'] = $request->title;
-        Course::insert($data);
+        try {
+            $validated = $request->validated(); // validasi request
+            // Insert data in database
+            Course::create([
+                'title' => $validated['title']
+            ]);
+
+            return response()->json([
+                'message' => 'Berhasil tambah pelajaran'
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([
+                'message' => 'Error ' . $th->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -76,12 +87,23 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RequestCourse $request, $id)
     {
-        // menyimpan data edit
-        $data = Course::findOrFail($id);
-        $data->title = $request->title;
-        $data->save();
+        try {
+            $validated = $request->validated();
+            // menyimpan data edit
+            $data = Course::findOrFail($id);
+            $data->title = $validated['title'];
+            $data->save();
+            return response()->json([
+                'message' => 'Berhasil edit pelajaran'
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([
+                'message' => 'Error ' . $th->getMessage()
+            ]);
+        }
     }
 
     /**

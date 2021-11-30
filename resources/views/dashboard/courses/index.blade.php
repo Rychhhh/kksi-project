@@ -11,114 +11,144 @@
 @endsection
 @section('content')
 
-<div class="container-fluid">
-    <div class="row mt-2 float-right">
-       <div class="col">
-      <button type="button" class="btn btn-primary btn-sm" onClick="create()">
-         Create course
-      </button>
-   </div>
-</div>
+    <div class="container-fluid">
+        <div class="row mt-2 float-right">
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-sm" onclick="create()">
+                    Create course
+                </button>
+            </div>
+        </div>
 
-@foreach ($data as $item)
-<div class="row mt-2">
- <div class="col-12">
-     <div class="card">
-         <div class="card-body d-flex justify-content-between">
-             <h5 type="button" style="text-transform: capitalize">
-                   {{ $item->title }}
-                </h5>
-                <div class="action">
-                    <button class="btn btn-success" onClick="show({{ $item->id }})">Edit</button>
-                    <button class="btn btn-danger" onClick="destroy({{ $item->id }})">Delete</button>
+        @foreach ($data as $item)
+            <div class="row mt-2">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body d-flex justify-content-between">
+                            <h5 type="button" style="text-transform: capitalize">
+                                {{ $item->title }}
+                            </h5>
+                            <div class="action">
+                                <button class="btn btn-success" onclick="show({{ $item->id }})">Edit</button>
+                                <button class="btn btn-danger" onclick="destroy({{ $item->id }})">Delete</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-     </div>
- </div>
-</div>
-@endforeach
+        @endforeach
 
-     <!-- General Modal -->
-     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-color:black"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="page" class="p-2"></div>
+        <!-- General Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            style="background-color:black"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="page" class="p-2"></div>
+                    </div>
                 </div>
             </div>
         </div>
+
+
     </div>
-
-
-   </div>
 @endsection
 
 @section('c_js')
-<script>
+    <script>
+        // function untuk ajax
+        function HitData(url, data, type) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: url,
+                    data: data,
+                    type: type,
+                    success: (response) => {
+                        resolve(response)
+                    },
+                    error: (error) => {
+                        reject(error)
+                    }
+                })
+            })
+        }
+
+        // function meng-handle error form
+        function inputInvalid(responseError) {
+            for (var i in responseError) {
+                $(`#${i}`).addClass("is-invalid");
+                for (var j in responseError[i]) {
+                    $(`#${i}`).parent().find('.invalid-feedback').html(`${responseError[i][j]}`)
+                }
+            }
+        }
 
         // Untuk modal halaman create
-        function create() {
-                $.get("{{ url('course/create') }}", {}, function(data, status) {
-                    $("#exampleModalLabel").html('Create Courses')
-                    $("#page").html(data);
-                    $("#exampleModal").modal('show');
-
-                });
+        async function create() {
+            try {
+                const response = await HitData("{{ url('course/create') }}", null, 'GET')
+                $("#exampleModal").modal('show');
+                $("#exampleModalLabel").html('Create Courses')
+                $("#page").html(response);
+            } catch (error) {
+                console.log(error)
             }
-
+        }
+        
         // untuk proses create data
-        function store() {
-            var title = $("#title").val();
-            $.ajax({
-                type: "get",
-                url: "{{ url('course/store') }}",
-                data: "title=" + title,
-                success: function(data) {
-                    $(".btn-close").click();
-                    $.get("{{ url('course/store') }}");
-                }
-            });
+        async function store() {
+            try {
+                var data = `title=${$('#title').val()}`
+                const response = await HitData("{{ url('course/store') }}", data, 'GET')
+                window.location.reload()
+            } catch (error) {
+                var responseError = error.responseJSON.errors
+                inputInvalid(responseError)
+                console.log(error);
+            }
         }
 
         // edit function
-        function show(id) {
-            $.get("{{ url('course/show') }}/" + id, {}, function (data, status) {
+        async function show(id) {
+            try {
+                const response = await HitData(`{{ url('/course/show/${id}') }}`, null, 'GET')
                 $('#exampleModalLabel').html('Edit Courses');
-                $('#page').html(data);
                 $('#exampleModal').modal('show');
-            });
+                $('#page').html(response);
+            } catch (error) {
+                console.log(error);
+            }
         }
 
         // untuk proses edit data
-        function update(id) {
-            var title = $("#title").val();
-            $.ajax({
-                type: "get",
-                url: "{{ url('course/update') }}/" + id,
-                data: "title=" + title,
-                success: function(data) {
-                    $(".btn-close").click();
-                    $.get("{{ url('course/update') }}/" + id);
-                }
-            });
+        async function update(id) {
+            try {
+                var data = `title=${$('#title').val()}`
+                const response = await HitData(`{{ url('/course/update/${id}') }}`, data, 'GET')
+                window.location.reload()
+            } catch (error) {
+                var responseError = error.responseJSON.errors
+                inputInvalid(responseError)
+                console.log(error);
+            }
         }
 
         // untuk menghapus data 
-        function destroy(id) {
-            var title = $('#title').val();
-            confirm("Apa anda yakin untuk hapus data ? ");
-            $.ajax({
-                type: "get",
-                url: "{{ url('course/destroy') }}/" + id,
-                data: "title=" + title,
-                success: function(data) {
-                    $.get("{{ url('course/destroy') }}/" + id);
-                }
-            });
+        async function destroy(id) {
+            try {
+                if (!confirm('Apa anda yakin untuk hapus data ?')) {
+                    return false;
+                };
+                var data = `title=${$('#title').val()}`
+                const response = await HitData(`{{ url('/course/destroy/${id}') }}`, data, 'GET')
+                window.location.reload()
+            } catch (error) {
+                console.log(error)
+            }
         }
-</script>
+    </script>
 @endsection
