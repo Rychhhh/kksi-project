@@ -11,7 +11,7 @@ class Course extends Model
 
     protected $table = 'course';
 
-    protected $guarded = ['id'];
+    protected $fillable = ['title'];
 
     public function materis()
     {

@@ -40,8 +40,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard.index');
     });
-    Route::get('/course', [RouteController::class, 'dataCourse']);
 
     Route::get('/logout', [LoginController::class, 'logout']);
-    Route::resource('/courses', CourseController::class);
+
+    
+    // Course Page
+    Route::get('/course', [CourseController::class, 'index']);
+    // Create Course
+    Route::get('/course/create', [CourseController::class, 'create']);
+    Route::get('/course/store', [CourseController::class, 'store']);
+    // Edit courses
+    Route::get('/course/show/{id}', [CourseController::class, 'show']);
+    Route::get('/course/update/{id}', [CourseController::class, 'update']);    
+    // Delete Course
+    Route::get('/course/destroy/{id}', [CourseController::class, 'destroy']);
 });

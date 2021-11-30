@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
-use App\Http\Requests\StoreCourseRequest;
-use App\Http\Requests\UpdateCourseRequest;
+use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
@@ -15,7 +14,10 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        $data = Course::all()->sortByDesc('id');
+        return view('dashboard.courses.index')->with([
+            "data" => $data
+        ]);
     }
 
     /**
@@ -25,46 +27,44 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.courses.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreCourseRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCourseRequest $request)
+    public function store(Request $request)
     {
-        try {
-            $validated = $request->validated();
-            Course::create([
-                'title' => $validated['title']
-            ]);
-            return back()->with('success', 'Saya ganteng');
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        // Insert data in database 
+        $data['title'] = $request->title;
+        Course::insert($data);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Course  $course
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Course $course)
+    public function show($id)
     {
-        //
+        // edit data
+        $data = Course::findOrFail($id);
+        return view('dashboard.courses.edit')->with([
+            "data" => $data
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Course  $course
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Course $course)
+    public function edit($id)
     {
         //
     }
@@ -72,23 +72,30 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateCourseRequest  $request
-     * @param  \App\Models\Course  $course
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCourseRequest $request, Course $course)
+    public function update(Request $request, $id)
     {
-        //
+        // menyimpan data edit
+        $data = Course::findOrFail($id);
+        $data->title = $request->title;
+        $data->save();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Course  $course
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Course $course)
+    public function destroy($id)
     {
-        //
+        // delete data
+        $data = Course::find($id);
+        $data->delete();
+
+        return redirect('course');
     }
 }

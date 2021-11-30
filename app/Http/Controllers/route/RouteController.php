@@ -20,13 +20,5 @@ class RouteController extends Controller
         }
     }
 
-    public function dataCourse()
-    {
-        try {
-            $courses = Course::all()->sortByDesc('created_at');
-            return view('dashboard.courses.index', compact('courses'));
-        } catch (\Throwable $th) {
-            throw $th;
-        }
-    }
+  
 }
