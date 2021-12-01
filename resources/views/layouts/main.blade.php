@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,6 +25,11 @@
 
     <script src="{{ asset('/assets/js/script.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Toastr -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
     @yield('c_css')
 
@@ -57,7 +61,7 @@
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>shop </title>
+                                <title>Dashboard</title>
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF"
                                         fill-rule="nonzero">
@@ -79,12 +83,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  " href="{{ url('materi') }}">
+                    <a class="nav-link" href="{{ url('materi') }}">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>credit-card</title>
+                                <title>Materi</title>
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF"
                                         fill-rule="nonzero">
@@ -105,13 +109,14 @@
                         <span class="nav-link-text ms-1">Materi</span>
                     </a>
                 </li>
-                 <li class="nav-item">
+            @if (Auth::user()->role == 'admin' || Auth::user()->role == 'guru')
+                <li class="nav-item">
                     <a class="nav-link  " href="{{ url('course') }}">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>credit-card</title>
+                                <title>Courses</title>
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF"
                                         fill-rule="nonzero">
@@ -132,13 +137,16 @@
                         <span class="nav-link-text ms-1">Courses</span>
                     </a>
                 </li>
+            @endif
+
+            @if (Auth::user()->role == 'Admin')
                 <li class="nav-item">
-                    <a class="nav-link  " href="../pages/rtl.html">
+                    <a class="nav-link" href="{{ url('admin/dashboard') }}">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>settings</title>
+                                <title>Admin</title>
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF"
                                         fill-rule="nonzero">
@@ -158,16 +166,18 @@
                         <span class="nav-link-text ms-1">Admin</span>
                     </a>
                 </li>
+            @endif
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
                 </li>
+            @auth
                 <li class="nav-item">
-                    <a class="nav-link  " href="../pages/profile.html">
+                    <a class="nav-link" href="{{-- url('profile') --}}">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>customer-support</title>
+                                <title>Profile</title>
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <g transform="translate(-1717.000000, -291.000000)" fill="#FFFFFF"
                                         fill-rule="nonzero">
@@ -191,13 +201,14 @@
                         <span class="nav-link-text ms-1">Profile</span>
                     </a>
                 </li>
+            @else
                 <li class="nav-item">
-                    <a class="nav-link  " href="../pages/sign-in.html">
+                    <a class="nav-link" href="{{ url('login') }}">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>document</title>
+                                <title>Log In</title>
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF"
                                         fill-rule="nonzero">
@@ -215,16 +226,16 @@
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Sign In</span>
+                        <span class="nav-link-text ms-1">Log In</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  " href="../pages/sign-up.html">
+                    <a class="nav-link  " href="{{ url('register') }}">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="20px" viewBox="0 0 40 40" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>spaceship</title>
+                                <title>Register</title>
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <g transform="translate(-1720.000000, -592.000000)" fill="#FFFFFF"
                                         fill-rule="nonzero">
@@ -248,9 +259,10 @@
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Sign Up</span>
+                        <span class="nav-link-text ms-1">Sign In</span>
                     </a>
                 </li>
+            @endauth
             </ul>
         </div>
         <div class="sidenav-footer mx-3 ">
@@ -294,7 +306,7 @@
                         <li class="nav-item d-flex align-items-center">
                             <a href="/logout" class="nav-link text-body font-weight-bold px-0">
                                 <i class="fa fa-user me-sm-1"></i>
-                                <span class="d-sm-inline d-none">Sign Out</span>
+                                <span class="d-sm-inline d-none">Log Out</span>
                             </a>
                         </li>
                         <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -446,8 +458,29 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('assets/js/soft-ui-dashboard.min.js?v=1.0.3') }}"></script>
+    
+    <script>
+        @if (Session::has('success')) 
+        toastr.options = 
+        {
+            "closeButton" : true,
+            "progressBar" : true
+        }
+            toastr.success(var response.message);
+        @endif
+        
+        @if (Session::has('error')) 
+        toastr.options = 
+        {
+            "closeButton" : true,
+            "progressBar" : true
+        }
+            toastr.error("{{ session('error') }}");
+        @endif
+    </script>
 
     @yield('c_js')
+
 </body>
 
 </html>

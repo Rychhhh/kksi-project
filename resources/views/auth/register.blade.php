@@ -1,4 +1,4 @@
-  @extends('layouts.auth.authmain')
+@extends('layouts.auth.authmain')
 
 @section('title')
     Register
@@ -47,7 +47,7 @@
                 </div>
                 <div class="card-body px-lg-5 py-lg-5">
                   <div class="text-center text-muted mb-4">
-                    <small>Atau register dengan</small>
+                    <small>Atau Register dengan</small>
                   </div>
                   <form role="form" action="/register" method="POST">
                     @csrf
@@ -57,8 +57,6 @@
                           {{ session('success') }}
                         </div>
                     @endif
-
-
 
                     <div class="form-group">
                       <div class="input-group input-group-merge input-group-alternative mb-3">
@@ -84,13 +82,11 @@
                         <input class="form-control" name="password" placeholder="Password"  type="password">
                       </div>
                     </div>
-                    <div class="row my-4">
+                    <div class="row my-2">
                       <div class="col-12 font-bold">
-                        <div class="custom-control custom-control-alternative custom-checkbox">
-                         <a href="{{ url('/login') }}">Sudah punya akun ? </a>
-                        </div>
                       </div>
                     </div>
+                    <a href="{{ url('/login') }}"><small>Sudah punya akun ?</small></a>
                     <div class="text-center">
                       <button type="submit" class="btn btn-primary mt-4">Create account</button>
                     </div>
