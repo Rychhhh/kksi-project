@@ -1,11 +1,8 @@
 @extends('layouts.auth.authmain')
 
-@section('title')
-    Login
-@endsection
+@section('title', 'Login')
 
 @section('content')
-
     <!-- Main content -->
     <div class="main-content">
       <!-- Header -->
@@ -15,8 +12,7 @@
             <div class="row justify-content-center">
               <div class="col-xl-5 col-lg-6 col-md-8 px-5">
                 <h1 class="text-white">Hii People!</h1>
-                <p class="text-lead text-white">Welcome my website .</p>
-              
+                <p class="text-lead text-white">Welcome to Our Website .</p>
               </div>
             </div>
           </div>
@@ -27,8 +23,6 @@
           </svg>
         </div>
       </div>
-      
-  
   
        <!-- Page content -->
       <div class="container mt--8 pb-5">
@@ -36,7 +30,7 @@
           <div class="col-lg-5 col-md-7">
             <div class="card bg-secondary border-0 mb-0">
               <div class="card-header bg-transparent pb-5">
-                <div class="text-muted text-center mt-2 mb-3"><small>Log in dengan</small></div>
+                <div class="text-muted text-center mt-2 mb-3"><small>Log In dengan</small></div>
                 <div class="btn-wrapper text-center">
                   <a href="#" class="btn btn-neutral btn-icon">
                     <span class="btn-inner--icon"><img src="{{ asset('assets/img/icons/common/github.svg') }}"></span>
@@ -50,7 +44,7 @@
               </div>
               <div class="card-body px-lg-5 py-lg-5">
                 <div class="text-center text-muted mb-4">
-                  <small>Atau log in dengan </small>
+                  <small>Atau Log In dengan</small>
                 </div>
                 <form role="form" action="/login" method="POST">
                   @csrf
@@ -76,8 +70,12 @@
                       <input class="form-control" placeholder="Password" name="password" type="password">
                     </div>
                   </div>
-                  <div class="custom-control custom-control-alternative custom-checkbox">
-                    <a href="{{ url('/register') }}" class="text-dark"><small>Buat akun baru ?</small></a>
+                  <div class="custom-control  custom-checkbox">
+                      <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                      <label class="form-check-label" for="remember">Remember Me</label>
+                  </div>
+                  <div class="text-center my-2">
+                    <a href="{{ url('/register') }}"><small>Belum punya akun ?</small></a>
                   </div>
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary my-4">Login</button>
@@ -85,11 +83,8 @@
                 </form>
               </div>
             </div>
-              <
           </div>
         </div>
       </div>
     </div>
-  
-
 @endsection

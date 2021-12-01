@@ -12,13 +12,15 @@
 @section('content')
 
     <div class="container-fluid">
-        <div class="row mt-2 float-right">
-            <div class="col">
-                <button type="button" class="btn btn-primary btn-sm" onclick="create()">
-                    Create course
-                </button>
+        @if (Auth::user()->role == 'admin' || 'guru')
+            <div class="row mt-2 float-right">
+                <div class="col">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="create()">
+                        Create course
+                    </button>
+                </div>
             </div>
-        </div>
+        @endif
 
         @foreach ($data as $item)
             <div class="row mt-2">
@@ -28,10 +30,12 @@
                             <h5 type="button" style="text-transform: capitalize">
                                 {{ $item->title }}
                             </h5>
+                            @if (Auth::user()->role == 'admin' || 'guru')
                             <div class="action">
                                 <button class="btn btn-success" onclick="show({{ $item->id }})">Edit</button>
                                 <button class="btn btn-danger" onclick="destroy({{ $item->id }})">Delete</button>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -104,11 +108,12 @@
             try {
                 var data = `title=${$('#title').val()}`
                 const response = await HitData("{{ url('course/store') }}", data, 'GET')
+                toastr.success(response.message);
                 window.location.reload()
             } catch (error) {
                 var responseError = error.responseJSON.errors
                 inputInvalid(responseError)
-                console.log(error);
+                toastr.error(error.responseJSON.message);
             }
         }
 
@@ -120,7 +125,7 @@
                 $('#exampleModal').modal('show');
                 $('#page').html(response);
             } catch (error) {
-                console.log(error);
+                toastr.error(error.responseJSON.message);
             }
         }
 
@@ -129,11 +134,12 @@
             try {
                 var data = `title=${$('#title').val()}`
                 const response = await HitData(`{{ url('/course/update/${id}') }}`, data, 'GET')
+                toastr.success(response.message)
                 window.location.reload()
             } catch (error) {
                 var responseError = error.responseJSON.errors
                 inputInvalid(responseError)
-                console.log(error);
+                toastr.error(error.responseJSON.message);
             }
         }
 
@@ -145,9 +151,10 @@
                 };
                 var data = `title=${$('#title').val()}`
                 const response = await HitData(`{{ url('/course/destroy/${id}') }}`, data, 'GET')
+                toastr.success(response.message)
                 window.location.reload()
             } catch (error) {
-                console.log(error)
+                toastr.error(error.responseJSON.message);
             }
         }
     </script>

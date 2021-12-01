@@ -46,6 +46,7 @@ class CourseController extends Controller
             return response()->json([
                 'message' => 'Berhasil tambah pelajaran'
             ]);
+
         } catch (\Throwable $th) {
             //throw $th;
             return response()->json([
@@ -118,6 +119,8 @@ class CourseController extends Controller
         $data = Course::find($id);
         $data->delete();
 
-        return redirect('course');
+        return response()->json([
+            'message' => 'Data berhasil dihapus'
+        ]);
     }
 }
