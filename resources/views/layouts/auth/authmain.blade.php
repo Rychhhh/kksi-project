@@ -17,6 +17,11 @@
         type="text/css">
     <!-- Argon CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/argon.css?v=1.2.0') }}" type="text/css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Toastr -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 </head>
 
 <body class="bg-default">
@@ -101,12 +106,10 @@
     </nav>
 
 
-
     @yield('content')
 
 
     <!-- Footer -->
-
     <footer class="py-5" id="footer-main">
         <div class="container">
             <div class="row align-items-center justify-content-xl-between">
@@ -136,6 +139,17 @@
 
     <!-- Argon JS -->
     <script src="{{ asset('assets/js/argon.js?v=1.2.0') }}"></script>
+    
+    <script>
+        @if (Session::has('success')) 
+        toastr.options = 
+        {
+            "closeButton" : true,
+            "progressBar" : true
+        }
+            toastr.success("{{ session('success') }}");
+        @endif
+    </script>
 
 </body>
 
