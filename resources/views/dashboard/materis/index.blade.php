@@ -28,7 +28,7 @@
                                         <div class="row mt-2">
                                             <div class="col-12">
                                                 <div class="card card-body">
-                                                    <a href="#" class="list-group-item list-group-item-action">
+                                                    <a href="" class="list-group-item list-group-item-action">
                                                         {{ $materi->title }}
                                                     </a>
                                                 </div>

@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/logout', [LoginController::class, 'logout']);
 
-    
+
     // Course Page
     Route::get('/course', [RouteController::class, 'dataCourse']);
     // Create Course
@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/course/store', [CourseController::class, 'store']);
     // Edit courses
     Route::get('/course/show/{id}', [CourseController::class, 'show']);
-    Route::get('/course/update/{id}', [CourseController::class, 'update']);    
+    Route::get('/course/update/{id}', [CourseController::class, 'update']);
     // Delete Course
     Route::get('/course/destroy/{id}', [CourseController::class, 'destroy']);
 });
