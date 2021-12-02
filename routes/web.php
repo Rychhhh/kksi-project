@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\MateriController;
 use App\Http\Controllers\route\RouteController;
+use App\Models\Materi;
 use Illuminate\Support\Facades\Route;
 
 //free access
@@ -37,6 +39,9 @@ Route::middleware('auth')->group(function () {
       Route::get('/course/update/{id}', [CourseController::class, 'update']);
       // Delete Course
       Route::get('/course/destroy/{id}', [CourseController::class, 'destroy']);
+
+      // Resource materi
+      Route::resource('/detail/{course:id}/materi', MateriController::class);
    });
 
    Route::prefix('admin')->middleware('admin')->group(function () {
@@ -44,4 +49,6 @@ Route::middleware('auth')->group(function () {
    });
 
    Route::get('/logout', [AuthController::class, 'logout']);
+   // Route::get('/materi/destroy/{id}', [CourseController::class, 'destroy']);
+   // Route::post('/detail/{course:id}/materi/{materi:id}', [MateriController::class, 'destroy']);
 });
