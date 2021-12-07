@@ -32,5 +32,8 @@ class RouteController extends Controller
         }
     }
 
+    public function firstviewAdmin() {
+        return view('admin.user.index');
+    }
   
 }

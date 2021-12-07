@@ -38,22 +38,24 @@
                                                     <a href="/detail/{{ $course->id }}/materi/{{ $materi->id }}" class="list-group-item list-group-item-action">
                                                         {{ $materi->title }}
                                                     </a>
+                                                        
                                                     @if (Auth::user()->role == 'admin' || 'guru')
                                                     <form action="/detail/{{ $course->id }}/materi/{{ $materi->id }}" method="post">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type='submit' class="btn btn-danger" onclick="return confirm('R u sure to delete this Materi ?')">Delete</button>
+                                                        <button type='submit' class="btn btn-danger mt-3" onclick="return confirm('R u sure to delete this Materi ?')">Delete</button>
                                                     </form>
-
+                                                    
                                                     <a href="/detail/{{ $course->id }}/materi/{{ $materi->id }}/edit" class="btn btn-warning d-inline">
                                                         Edit Materi
                                                     </a>
-
+                                                    
                                                     @else
-                                                        <a href="/detail/{{ $course->id }}/materi/{{ $materi->id }}" class="list-group-item list-group-item-action">
+                                                    <a href="/detail/{{ $course->id }}/materi/{{ $materi->id }}" class="list-group-item list-group-item-action">
                                                         {{ $materi->title }}
-                                                        </a>
+                                                    </a>
                                                     @endif
+
                                                 </div>
                                             </div>
                                         </div>

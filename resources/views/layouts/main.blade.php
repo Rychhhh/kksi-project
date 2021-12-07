@@ -139,7 +139,7 @@
                 </li>
             @endif
 
-            @if (Auth::user()->role == 'Admin')
+            @if (Auth::user()->role == 'admin')
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('admin/dashboard') }}">
                         <div

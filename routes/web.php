@@ -1,16 +1,27 @@
 <?php
 
+// Admin
+use App\Http\Controllers\admin\AdminController as AdminAdminController;
+use App\Http\Controllers\admin\GuruController;
+use App\Http\Controllers\admin\SiswaController;
+
+// Auth
 use App\Http\Controllers\auth\AuthController;
+
+// Course, Materi
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\MateriController;
+
+// Route
 use App\Http\Controllers\route\RouteController;
-use App\Models\Materi;
+
 use Illuminate\Support\Facades\Route;
 
 //free access
 Route::get('/dashboard', function () {
    return view('dashboard.index');
 });
+
 Route::get('/materi', [RouteController::class, 'dataMateri']);
 
 Route::middleware('guest')->group(function () {
@@ -42,11 +53,19 @@ Route::middleware('auth')->group(function () {
 
       // Resource materi
       Route::resource('/detail/{course:id}/materi', MateriController::class);
+
+   });
+   
+   
+   Route::prefix('admin')->middleware('admin')->group(function () {
+      Route::view('dashboard', 'admin.dashboard');
    });
 
-   Route::prefix('admin')->middleware('admin')->group(function () {
-      Route::view('dashboard', 'layouts.admin.adminmain');
-   });
+   Route::get('coba', [RouteController::class, 'firstviewAdmin']);
+
+   Route::resource('admin', AdminAdminController::class);
+   Route::resource('siswa', SiswaController::class);
+   Route::resource('guru', GuruController::class);
 
    Route::get('/logout', [AuthController::class, 'logout']);
    // Route::get('/materi/destroy/{id}', [CourseController::class, 'destroy']);
