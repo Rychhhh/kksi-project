@@ -20,7 +20,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Toastr -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/toastr.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 </head>
 
@@ -144,8 +144,7 @@
         @if (Session::has('success')) 
         toastr.options = 
         {
-            "closeButton" : true,
-            "progressBar" : true
+            "closeButton" : true
         }
             toastr.success("{{ session('success') }}");
         @endif

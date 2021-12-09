@@ -17,12 +17,15 @@ class CourseSeeder extends Seeder
         $data = [
             [
                 "title" => "Basic PHP",
+                "total_materi" => '3'
             ],
             [
                 "title" => "R fundamental",
+                "total_materi" => '2'
             ],
             [
                 "title" => "Python fundamental",
+                "total_materi" => '2'
             ]
         ];
 

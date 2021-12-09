@@ -52,35 +52,38 @@
                   <form role="form" action="/register" method="POST">
                     @csrf
 
-                    @if (session('success'))
-                        <div class="alert alert-success">
-                          {{ session('success') }}
-                        </div>
-                    @endif
-
                     <div class="form-group">
                       <div class="input-group input-group-merge input-group-alternative mb-3">
                         <div class="input-group-prepend">
                           <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                         </div>
-                        <input class="form-control" name="name" placeholder="Name"  type="text">
+                        <input class="form-control" name="name" placeholder="Name" value="{{ old('name') }}" type="text">
                       </div>
+                      @error('name')
+                          <small class="text-danger">{{ $message }}</small>
+                      @enderror
                     </div>
                     <div class="form-group">
                       <div class="input-group input-group-merge input-group-alternative mb-3">
                         <div class="input-group-prepend">
                           <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                         </div>
-                        <input class="form-control" name="email" placeholder="Email"  type="email">
+                        <input class="form-control" name="email" placeholder="Email" value="{{ old('email') }}" type="text">
                       </div>
+                      @error('email')
+                          <small class="text-danger">{{ $message }}</small>
+                      @enderror
                     </div>
                     <div class="form-group">
                       <div class="input-group input-group-merge input-group-alternative">
                         <div class="input-group-prepend">
                           <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                         </div>
-                        <input class="form-control" name="password" placeholder="Password"  type="password">
+                        <input class="form-control" name="password" placeholder="Password" value="{{ old('password') }}" type="password">
                       </div>
+                      @error('password')
+                        <small class="text-danger">{{ $message }}</small>
+                      @enderror
                     </div>
                     <div class="row my-2">
                       <div class="col-12 font-bold">

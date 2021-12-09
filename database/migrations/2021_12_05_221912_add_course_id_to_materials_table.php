@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCourseIdToMateriesTable extends Migration
+class AddCourseIdToMaterialsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AddCourseIdToMateriesTable extends Migration
      */
     public function up()
     {
-        Schema::table('materi', function (Blueprint $table) {
-            $table->unsignedBigInteger('course_id');
-            $table->foreign('course_id')->references('id')->on('course')->onDelete('cascade')->onUpdate('cascade');
+        Schema::table('materials', function (Blueprint $table) {
+            $table->unsignedBigInteger('course_id')->after('title');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -26,7 +26,7 @@ class AddCourseIdToMateriesTable extends Migration
      */
     public function down()
     {
-        Schema::table('materies', function (Blueprint $table) {
+        Schema::table('materials', function (Blueprint $table) {
             //
         });
     }

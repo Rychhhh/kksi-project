@@ -59,16 +59,22 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                       </div>
-                      <input class="form-control" placeholder="Email" name="email" type="email">
+                      <input class="form-control" placeholder="Email" name="email" value="{{ old('email') }}" type="text">
                     </div>
+                    @error('email')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
                   </div>
                   <div class="form-group">
                     <div class="input-group input-group-merge input-group-alternative">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                       </div>
-                      <input class="form-control" placeholder="Password" name="password" type="password">
+                      <input class="form-control" placeholder="Password" name="password" value="{{ old('password') }}" type="password">
                     </div>
+                    @error('password')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
                   </div>
                   <div class="custom-control  custom-checkbox">
                       <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CourseStoreRequest extends FormRequest
+class ImgUpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class CourseStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'phone' => 'integer',
-            'location' => 'max:40',
+            'pict' => 'image|dimensions:ratio=1/1|mimes:png,jpg,jpeg,webp,svg'
         ];
     }
 }
