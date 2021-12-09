@@ -76,7 +76,9 @@ class MateriController extends Controller
 
         Materi::create($validatedData);
 
-        return redirect('/materi')->with('success', 'Data berhasil di tambah');
+        $redirect = 'course/total/' . $course->id;
+
+        return redirect($redirect)->with('success', 'Data berhasil di tambah');
     }
 
     /**

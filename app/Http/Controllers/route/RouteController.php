@@ -4,12 +4,23 @@ namespace App\Http\Controllers\route;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
-use App\Models\Materi;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\TryCatch;
 
 class RouteController extends Controller
 {
+    public function dataUser() //halaman profile user
+    {
+      try {
+          $users = User::where('email', Auth::user()->email)->get();
+          return view('dashboard.profile.index', compact('users'));
+      } catch (\Throwable $th) {
+          throw $th;
+      }
+    }
+
     public function dataMateri() // halaman data materi
     {
         try {

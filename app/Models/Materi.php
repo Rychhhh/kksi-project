@@ -9,7 +9,7 @@ class Materi extends Model
 {
     use HasFactory;
 
-    protected $table = 'materi';
+    protected $table = 'materials';
     protected $fillable = [
         'title', 
         'created_by',
@@ -20,5 +20,10 @@ class Materi extends Model
     public function course()
     {
         return $this->belongsTo(Course::class, 'course_id', 'id');
+    }
+
+    public function progress()
+    {
+        return $this->hasMany(StudentProgress::class, 'course_id', 'id');
     }
 }

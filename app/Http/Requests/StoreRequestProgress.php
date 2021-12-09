@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CourseStoreRequest extends FormRequest
+class StoreRequestProgress extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class CourseStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'phone' => 'integer',
-            'location' => 'max:40',
+            'course_id' => 'required',
+            'materi_id' => 'required|unique:student_progresses,material_id'
         ];
     }
 }

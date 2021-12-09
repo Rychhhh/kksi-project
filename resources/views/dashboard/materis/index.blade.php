@@ -24,38 +24,38 @@
                             <button type="button" data-bs-toggle="collapse"
                                 data-bs-target="#{{ Str::slug($course->title) }}" aria-expanded="false"
                                 aria-controls="{{ Str::slug($course->title) }}"
-                                class="list-group-item list-group-item-action">
+                                class="list-group-item list-group-item-action" style="border:none; border-radius:50px">
                                 {{ $course->title }}
                             </button>
-                            <a href="/detail/{{ $course->id }}/materi/create" class="btn btn-primary mt-2">Tambah materi</a>
+                            
+                        @auth
+                            @if (Auth::user()->role != 'siswa')
+                                <a href="/detail/{{ $course->id }}/materi/create" class="btn btn-primary mt-2">Tambah materi</a>
+                            @endif
+                        @endauth
                             <div class="collapse" id="{{ Str::slug($course->title) }}">
                                 <div class="container-fluid">
                                     @foreach ($course->materis as $materi)
-                                    
                                         <div class="row mt-2">
                                             <div class="col-12">
                                                 <div class="card card-body">
-                                                    <a href="/detail/{{ $course->id }}/materi/{{ $materi->id }}" class="list-group-item list-group-item-action">
+                                                    <a href="/detail/{{ $course->id }}/materi/{{ $materi->id }}" class="accordion-button list-group-item list-group-item-action" id="materi" onclick="CreateProgress({{ $course->id }}, {{ $materi->id }})">
                                                         {{ $materi->title }}
                                                     </a>
-                                                        
-                                                    @if (Auth::user()->role == 'admin' || 'guru')
+                                                @auth
+                                                    @if (Auth::user()->role != 'siswa')
                                                     <form action="/detail/{{ $course->id }}/materi/{{ $materi->id }}" method="post">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type='submit' class="btn btn-danger mt-3" onclick="return confirm('R u sure to delete this Materi ?')">Delete</button>
+                                                        <button type='submit' class="btn btn-danger mt-4 float-end" onclick="return confirm('R u sure to delete this Materi ?')">Delete</button>
                                                     </form>
                                                     
                                                     <a href="/detail/{{ $course->id }}/materi/{{ $materi->id }}/edit" class="btn btn-warning d-inline">
                                                         Edit Materi
                                                     </a>
                                                     
-                                                    @else
-                                                    <a href="/detail/{{ $course->id }}/materi/{{ $materi->id }}" class="list-group-item list-group-item-action">
-                                                        {{ $materi->title }}
-                                                    </a>
                                                     @endif
-
+                                                @endauth
                                                 </div>
                                             </div>
                                         </div>
@@ -68,4 +68,27 @@
             </div>
         @endforeach
     </div>
+@endsection
+
+@section('c_js')
+@include('_partials.c_js.ajaxPromise')
+    <script>
+        async function CreateProgress(course_id, materi_id){
+            try {
+                var data = {
+                    _token: "{{ csrf_token() }}",
+                    course_id,
+                    materi_id
+                }
+                const response = await HitData('/progress/store', data, 'POST')
+                console.log(response);
+                window.location.href = `/detail/${data.course_id}/materi/${data.materi_id}`;
+            } catch (error) {
+                if(error.responseJSON.message == "The given data was invalid."){
+                    window.location.href = `/detail/${data.course_id}/materi/${data.materi_id}`;
+                }z
+                console.log('error', error)
+            }
+        }
+    </script>
 @endsection

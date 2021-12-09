@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RequestCourse;
 use App\Models\Course;
+use App\Models\Materi;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -38,13 +39,14 @@ class CourseController extends Controller
     {
         try {
             $validated = $request->validated(); // validasi request
+
             // Insert data in database
             Course::create([
-                'title' => $validated['title']
+                'title' => $validated['title'],
             ]);
 
             return response()->json([
-                'message' => 'Berhasil tambah pelajaran'
+                'message' => 'Berhasil tambah pelajaran',
             ]);
 
         } catch (\Throwable $th) {
